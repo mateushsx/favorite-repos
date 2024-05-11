@@ -1,7 +1,9 @@
+import { AppRoutes } from './routes';
+
 function App() {
   return (
-    <div>
-      <h1>Favorite Repos</h1>
+    <div className="bg-slate-900 h-screen text-white">
+      <AppRoutes />
     </div>
   );
 }
