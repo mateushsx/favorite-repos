@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/repository/:id" element={<Reporitory />} />
+      <Route path="/repository/:fullname" element={<Reporitory />} />
       <Route path="/" element={<Main />} />
     </Routes>
   );

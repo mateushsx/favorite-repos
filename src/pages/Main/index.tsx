@@ -4,12 +4,15 @@ import { AlignJustify, Github, Plus, Trash2 } from 'lucide-react';
 
 import { TRepository } from '../../types';
 import { githubService } from '../../services/github';
+import { useNavigate } from 'react-router-dom';
 
 const REPOSITORIES_STORAGE_KEY = '@favorite-repos:repositories';
 
 export function Main() {
   const [repositories, setRepositories] = useState<TRepository[]>([]);
   const [repositoryName, setRepositoryName] = useState('');
+
+  const navigate = useNavigate();
 
   const handleUpdateRepositoriesStorage = (repositories: TRepository[]) => {
     localStorage.setItem(
@@ -66,6 +69,10 @@ export function Main() {
     [repositories]
   );
 
+  const handleRepositoryDetails = (fullname: string) => {
+    navigate(`/repository/${encodeURIComponent(fullname)}`);
+  };
+
   useEffect(() => {
     const repositories = localStorage.getItem(REPOSITORIES_STORAGE_KEY);
     if (repositories) {
@@ -112,7 +119,10 @@ export function Main() {
                 <h2 className="text-slate-900">{repository.full_name}</h2>
               </div>
 
-              <AlignJustify className="text-slate-900 hover:text-blue-700 cursor-pointer transition-all" />
+              <AlignJustify
+                className="text-slate-900 hover:text-blue-700 cursor-pointer transition-all"
+                onClick={() => handleRepositoryDetails(repository.full_name)}
+              />
             </li>
           ))}
         </ul>
