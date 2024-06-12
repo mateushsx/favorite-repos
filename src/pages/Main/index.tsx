@@ -1,13 +1,22 @@
 import { toast } from 'react-toastify';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AlignJustify, Github, Plus, Trash2 } from 'lucide-react';
 
 import { TRepository } from '../../types';
 import { githubService } from '../../services/github';
 
+const REPOSITORIES_STORAGE_KEY = '@favorite-repos:repositories';
+
 export function Main() {
   const [repositories, setRepositories] = useState<TRepository[]>([]);
   const [repositoryName, setRepositoryName] = useState('');
+
+  const handleUpdateRepositoriesStorage = (repositories: TRepository[]) => {
+    localStorage.setItem(
+      REPOSITORIES_STORAGE_KEY,
+      JSON.stringify(repositories)
+    );
+  };
 
   const handleAddRepository = useCallback(async () => {
     try {
@@ -28,8 +37,10 @@ export function Main() {
       }
 
       const response = await githubService.getRepository(repositoryName);
+      const newListRepositories = [...repositories, response];
 
-      setRepositories([...repositories, response]);
+      setRepositories(newListRepositories);
+      handleUpdateRepositoriesStorage(newListRepositories);
       setRepositoryName('');
 
       toast('Repositório adicionado com sucesso!', {
@@ -50,9 +61,17 @@ export function Main() {
       );
 
       setRepositories(filteredRepositories);
+      handleUpdateRepositoriesStorage(filteredRepositories);
     },
     [repositories]
   );
+
+  useEffect(() => {
+    const repositories = localStorage.getItem(REPOSITORIES_STORAGE_KEY);
+    if (repositories) {
+      setRepositories(JSON.parse(repositories));
+    }
+  }, []);
 
   return (
     <div className="flex justify-center items-center h-screen">
