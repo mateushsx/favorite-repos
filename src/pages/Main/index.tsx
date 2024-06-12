@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { useCallback, useState } from 'react';
-import { Github, Plus } from 'lucide-react';
+import { AlignJustify, Github, Plus, Trash2 } from 'lucide-react';
 
 import { TRepository } from '../../types';
 import { githubService } from '../../services/github';
@@ -43,6 +43,17 @@ export function Main() {
     }
   }, [repositories, repositoryName]);
 
+  const handleRemoveRepository = useCallback(
+    (id: number) => {
+      const filteredRepositories = repositories.filter(
+        (repository) => repository.id !== id
+      );
+
+      setRepositories(filteredRepositories);
+    },
+    [repositories]
+  );
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col gap-6 bg-slate-200 p-4 max-w-md w-full rounded mx-4 pb-8">
@@ -61,12 +72,31 @@ export function Main() {
           />
 
           <button
-            className="bg-green-700 p-1 rounded hover:opacity-25"
+            className="bg-green-700 p-1 rounded hover:opacity-70 transition-all"
             onClick={handleAddRepository}
           >
             <Plus />
           </button>
         </div>
+
+        <ul className="flex flex-col gap-2">
+          {repositories.map((repository) => (
+            <li
+              key={repository.id}
+              className="flex items-center justify-between gap-2 border-slate-300 border-b  p-2"
+            >
+              <div className="flex gap-2 items-center">
+                <Trash2
+                  className="text-slate-900 hover:text-red-500 cursor-pointer transition-all"
+                  onClick={() => handleRemoveRepository(repository.id)}
+                />
+                <h2 className="text-slate-900">{repository.full_name}</h2>
+              </div>
+
+              <AlignJustify className="text-slate-900 hover:text-blue-700 cursor-pointer transition-all" />
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
