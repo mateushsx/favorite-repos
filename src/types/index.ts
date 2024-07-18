@@ -5,6 +5,12 @@ export type TRepository = {
   private: boolean;
   description: string;
   url: string;
+  owner: {
+    login: string;
+    id: number;
+    avatar_url: string;
+    html_url: string;
+  };
 };
 
 export interface TRepositoryIssue {
