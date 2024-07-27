@@ -25,7 +25,7 @@ Certifique-se de ter o Node.js e o npm instalados em sua máquina.
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-nome-de-usuário/favorite-repos.git
+   git clone https://github.com/mateushsx/favorite-repos.git
    ```
 
 2. Clone o repositório:
