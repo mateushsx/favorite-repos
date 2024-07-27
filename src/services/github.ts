@@ -8,10 +8,19 @@ export const githubService = {
   },
 
   getIssues: async (
-    repository_fullname: string
+    repository_fullname: string,
+    page: number,
+    state: 'open' | 'closed' | 'all' = 'open'
   ): Promise<TRepositoryIssue[]> => {
     const response = await githubApi.get(
-      `/repos/${repository_fullname}/issues`
+      `/repos/${repository_fullname}/issues`,
+      {
+        params: {
+          state,
+          per_page: 5,
+          page,
+        },
+      }
     );
     return response.data;
   },
