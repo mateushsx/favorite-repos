@@ -48,6 +48,47 @@ export function Reporitory() {
 
           <p className="text-slate-900">{repository.description}</p>
         </div>
+
+        <ul className="flex flex-col gap-4 h-96 overflow-y-scroll overflow-x-hidden">
+          {issues.map((issue) => (
+            <li
+              key={issue.id}
+              className="flex flex-col gap-4 justify-center items-center"
+            >
+              <div className="rounded-full overflow-hidden">
+                <img
+                  src={issue.user?.avatar_url}
+                  alt={issue?.user?.login}
+                  className="w-40 h-40"
+                />
+              </div>
+
+              <div>
+                <strong className="flex flex-col gap-2">
+                  <a
+                    className="font-bold text-slate-900"
+                    href={issue.html_url}
+                    target="_blank"
+                  >
+                    {issue.title}
+                  </a>
+
+                  <div>
+                    {issue.labels.map((label) => (
+                      <span
+                        key={label.id}
+                        style={{ background: `#${label.color || 'ccc'}` }}
+                        className="inline-block text-slate-900 rounded-full px-3 py-1 text-sm font-semibold"
+                      >
+                        {label.name}
+                      </span>
+                    ))}
+                  </div>
+                </strong>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
